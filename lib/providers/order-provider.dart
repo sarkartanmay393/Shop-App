@@ -8,14 +8,18 @@ import './cart-provider.dart';
 class Order with ChangeNotifier {
   List<OrderItem> _order = [];
 
-  final url = Uri.parse(
-      'https://shop-app-82853-default-rtdb.asia-southeast1.firebasedatabase.app/orders.json');
+  final String authToken;
+  Order(this.authToken, this._order);
 
   List<OrderItem> get OrderList {
     return [..._order];
   }
 
+
   Future<void> fetchOrders() async {
+    final url = Uri.parse(
+        'https://shop-app-82853-default-rtdb.asia-southeast1.firebasedatabase.app/orders.json?auth=$authToken');
+
     try {
       final response = await http.get(url);
       final extractOrdersData =
@@ -48,6 +52,8 @@ class Order with ChangeNotifier {
   }
 
   Future<void> addOrder(double totalPrice, List<CartItem> CartItems) async {
+    final url = Uri.parse(
+        'https://shop-app-82853-default-rtdb.asia-southeast1.firebasedatabase.app/orders.json?auth=$authToken');
     final timestamp = DateTime.now();
     try {
       final response = await http.post(url,

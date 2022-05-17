@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_complete_guide/providers/products-provider.dart';
 import 'package:provider/provider.dart';
 
+import '../providers/products-provider.dart';
 import '../providers/cart-provider.dart';
 import '../screens/CartScreen.dart';
 import '../widgets/badge.dart';
@@ -18,7 +18,7 @@ enum PopupItemValue {
 }
 
 class TabScreen extends StatefulWidget {
-  static const routeName = "/";
+  static const routeName = "tabScreen";
 
   @override
   State<TabScreen> createState() => _TabScreenState();

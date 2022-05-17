@@ -46,6 +46,10 @@ class Products with ChangeNotifier {
     // ),
   ];
 
+  String authToken;
+  Products(this.authToken, this._items);
+
+
   List<Product> get items {
     return [..._items];
   }
@@ -56,7 +60,7 @@ class Products with ChangeNotifier {
 
   Future<void> fetchAndSetData() async {
     final url = Uri.parse(
-        'https://shop-app-82853-default-rtdb.asia-southeast1.firebasedatabase.app/products.json');
+        'https://shop-app-82853-default-rtdb.asia-southeast1.firebasedatabase.app/products.json?auth=$authToken');
     try {
       final response = await http.get(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
@@ -81,7 +85,7 @@ class Products with ChangeNotifier {
 
   Future<void> addProduct(Product item) async {
     final url = Uri.parse(
-        'https://shop-app-82853-default-rtdb.asia-southeast1.firebasedatabase.app/products.json');
+        'https://shop-app-82853-default-rtdb.asia-southeast1.firebasedatabase.app/products.json?auth=$authToken');
     try {
       final response = await http.post(url,
           body: json.encode({
@@ -111,7 +115,7 @@ class Products with ChangeNotifier {
     int specifiedIndex =
         _items.indexWhere((item) => item.id == existingItem.id);
     final url = Uri.parse(
-        'https://shop-app-82853-default-rtdb.asia-southeast1.firebasedatabase.app/products/${existingItem.id}.json');
+        'https://shop-app-82853-default-rtdb.asia-southeast1.firebasedatabase.app/products/${existingItem.id}.json?auth=$authToken');
     try {
       await http.patch(url,
           body: json.encode({
@@ -136,7 +140,7 @@ class Products with ChangeNotifier {
 
   Future<void> deleteProduct(String id) async {
     final url = Uri.parse(
-        'https://shop-app-82853-default-rtdb.asia-southeast1.firebasedatabase.app/products/$id.json');
+        'https://shop-app-82853-default-rtdb.asia-southeast1.firebasedatabase.app/products/$id.json?auth=$authToken');
     final indexForRevert = _items.indexWhere((prod) => prod.id == id);
     var backupForRevert = _items[indexForRevert];
     _items.removeAt(indexForRevert);

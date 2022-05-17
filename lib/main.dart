@@ -17,58 +17,69 @@ import './screens/ProductManageScreen.dart';
 import './screens/AddNewScreen.dart';
 import './screens/AuthScreen.dart';
 import './screens/EditScreen.dart';
+import './providers/auth-provider.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [ // adding multiple providers.
-        ChangeNotifierProvider(create: (_) => Products()),
+      providers: [
+        // adding multiple providers.
+        ChangeNotifierProvider.value(value: Auth()),
+        ChangeNotifierProxyProvider<Auth, Products>(
+            create: (ctx) => Products(null, []),
+            update: (ctx, auth, preProds) =>
+                Products(auth.token, preProds.items)),
+        ChangeNotifierProxyProvider<Auth, Order>(
+            create: (ctx) => Order(null, []),
+            update: (ctx, auth, preOrders) =>
+                Order(auth.token, preOrders.OrderList)),
         ChangeNotifierProvider.value(value: Cart()),
-        ChangeNotifierProvider(create: (_) => Order()),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Zometo',
-        theme: ThemeData(
-          fontFamily: "SourceSans Pro",
-          primarySwatch: Colors.red,
-          //canvasColor: MaterialColor(1, {1: Color.fromRGBO(244, 244, 242, 100)}),
-          // primaryTextTheme: TextTheme(
-          //   headlineSmall: TextStyle(
-          //     fontFamily: "SourceSans Pro",
-          //     color: Colors.black,
-          //     fontSize: 13,
-          //     fontWeight: FontWeight.w700,
-          //   ),
-          //   headline1: TextStyle(
-          //     fontFamily: "SourceSans Pro",
-          //     color: Colors.black,
-          //     fontSize: 22,
-          //     fontWeight: FontWeight.w500,
-          //   ),
-          //
-          // ),
+      child: Consumer<Auth>(
+        builder: (ctx, auth, _) => MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Shop',
+          theme: ThemeData(
+            fontFamily: "SourceSans Pro",
+            primarySwatch: Colors.red,
+            //canvasColor: MaterialColor(1, {1: Color.fromRGBO(244, 244, 242, 100)}),
+            // primaryTextTheme: TextTheme(
+            //   headlineSmall: TextStyle(
+            //     fontFamily: "SourceSans Pro",
+            //     color: Colors.black,
+            //     fontSize: 13,
+            //     fontWeight: FontWeight.w700,
+            //   ),
+            //   headline1: TextStyle(
+            //     fontFamily: "SourceSans Pro",
+            //     color: Colors.black,
+            //     fontSize: 22,
+            //     fontWeight: FontWeight.w500,
+            //   ),
+            //
+            // ),
+          ),
+          home: (auth.isAuth) ? TabScreen() : AuthScreen(),
+          //initialRoute: (auth.isAuth) ? TabScreen.routeName : AuthScreen.routeName,
+          routes: {
+            AuthScreen.routeName: (context) => AuthScreen(),
+            TabScreen.routeName: (context) => TabScreen(),
+            Home.routeName: (context) => Home(),
+            Categories.routeName: (context) => Categories(),
+            Offers.routeName: (context) => Offers(),
+            Wallet.routeName: (context) => Wallet(),
+            ProductDetailsScreen.routeName: (context) => ProductDetailsScreen(),
+            Favorite.routeName: (context) => Favorite(),
+            CartScreen.routeName: (context) => CartScreen(),
+            OrderScreen.routeName: (context) => OrderScreen(),
+            ProductManageScreen.routeName: (context) => ProductManageScreen(),
+            AddNewScreen.routeName: (context) => AddNewScreen(),
+            EditScreen.routeName: (context) => EditScreen(),
+          },
         ),
-        initialRoute: AuthScreen.routeName,
-        routes: {
-          AuthScreen.routeName: (context) => AuthScreen(),
-          TabScreen.routeName: (context) => TabScreen(),
-          Home.routeName: (context) => Home(),
-          Categories.routeName: (context) => Categories(),
-          Offers.routeName: (context) => Offers(),
-          Wallet.routeName: (context) => Wallet(),
-          ProductDetailsScreen.routeName: (context) => ProductDetailsScreen(),
-          Favorite.routeName: (context) => Favorite(),
-          CartScreen.routeName: (context) => CartScreen(),
-          OrderScreen.routeName: (context) => OrderScreen(),
-          ProductManageScreen.routeName: (context) => ProductManageScreen(),
-          AddNewScreen.routeName: (context) => AddNewScreen(),
-          EditScreen.routeName: (context) => EditScreen(),
-        },
       ),
     );
   }
