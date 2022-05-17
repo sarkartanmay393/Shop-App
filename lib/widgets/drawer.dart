@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../providers/auth-provider.dart';
 import '../screens/OrderScreen.dart';
 import '../screens/ProductManageScreen.dart';
+import '../screens/TabScreen.dart';
 import './favorite.dart';
 
 class MainDrawer extends StatelessWidget {
@@ -19,6 +22,17 @@ class MainDrawer extends StatelessWidget {
               automaticallyImplyLeading: false),
           Divider(
             height: 5,
+          ),
+          ListTile(
+            title: Text(
+              "Shop",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            ),
+            style: ListTileStyle.drawer,
+            leading: Icon(Icons.favorite, color: Colors.red.shade400,),
+            onTap: () {
+              Navigator.of(context).pushNamed(TabScreen.routeName);
+            },
           ),
           ListTile(
             title: Text(
@@ -51,6 +65,19 @@ class MainDrawer extends StatelessWidget {
             leading: Icon(Icons.edit, color: Colors.red.shade400,),
             onTap: () {
               Navigator.of(context).pushNamed(ProductManageScreen.routeName);
+            },
+          ),
+          ListTile(
+            title: Text(
+              "Logout",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            ),
+            style: ListTileStyle.drawer,
+            leading: Icon(Icons.logout, size: 14, color: Colors.red.shade400,),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).pushReplacementNamed('tabScreen');
+              Provider.of<Auth>(context, listen: false).logout();
             },
           ),
         ],

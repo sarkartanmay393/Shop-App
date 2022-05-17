@@ -12,27 +12,26 @@ class Product with ChangeNotifier {
   String category;
   bool isFavorite;
 
-  Product(
-      {this.id,
-      this.title,
-      this.description,
-      this.price,
-      this.imageUrl,
-      this.category,
-      this.isFavorite = false});
+  Product({
+    this.id,
+    this.title,
+    this.description,
+    this.price,
+    this.imageUrl,
+    this.category,
+    this.isFavorite = false,
+  });
 
-  Future<void> toggleFavorite(String authToken) async {
+  Future<void> toggleFavorite(String authToken, String userId) async {
     var backup = isFavorite;
     final url = Uri.parse(
-        "https://shop-app-82853-default-rtdb.asia-southeast1.firebasedatabase.app/products/$id.json?auth=$authToken");
+        "https://shop-app-82853-default-rtdb.asia-southeast1.firebasedatabase.app/favoritesByUser/$userId/$id.json?auth=$authToken");
     isFavorite = !isFavorite;
     notifyListeners();
     try {
-      final response = await http.patch(
+      final response = await http.put(
         url,
-        body: json.encode({
-          'isFavorite': isFavorite,
-        }),
+        body: json.encode(isFavorite),
       );
       if (response.statusCode >= 400) {
         isFavorite = backup;

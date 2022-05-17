@@ -1,3 +1,4 @@
+import 'package:demo_shop_app/screens/SplashScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -29,13 +30,13 @@ class MyApp extends StatelessWidget {
         // adding multiple providers.
         ChangeNotifierProvider.value(value: Auth()),
         ChangeNotifierProxyProvider<Auth, Products>(
-            create: (ctx) => Products(null, []),
+            create: (ctx) => Products(null, null, []),
             update: (ctx, auth, preProds) =>
-                Products(auth.token, preProds.items)),
+                Products(auth.userId, auth.token, preProds.items)),
         ChangeNotifierProxyProvider<Auth, Order>(
-            create: (ctx) => Order(null, []),
+            create: (ctx) => Order(null, null, []),
             update: (ctx, auth, preOrders) =>
-                Order(auth.token, preOrders.OrderList)),
+                Order(auth.token, auth.userId, preOrders.OrderList)),
         ChangeNotifierProvider.value(value: Cart()),
       ],
       child: Consumer<Auth>(
@@ -62,7 +63,15 @@ class MyApp extends StatelessWidget {
             //
             // ),
           ),
-          home: (auth.isAuth) ? TabScreen() : AuthScreen(),
+          home: (auth.isAuth)
+              ? TabScreen()
+              : FutureBuilder(
+                  future: auth.tryAutoLogin(),
+                  builder: (ctx, authDataSnapshot) =>
+                      authDataSnapshot.connectionState ==
+                              ConnectionState.waiting
+                          ? SplashScreen()
+                          : AuthScreen()),
           //initialRoute: (auth.isAuth) ? TabScreen.routeName : AuthScreen.routeName,
           routes: {
             AuthScreen.routeName: (context) => AuthScreen(),

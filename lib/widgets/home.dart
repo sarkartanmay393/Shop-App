@@ -41,7 +41,7 @@ class Home extends StatelessWidget {
                   childAspectRatio: 3 / 2,
                   crossAxisSpacing: 7.0,
                   mainAxisSpacing: 7.0),
-              itemCount: products.length,
+              itemCount: products.length < 5 ? products.length : 4,
               itemBuilder: (context, index) => ChangeNotifierProvider.value(
                   value: products[index], child: product_card()),
             ),

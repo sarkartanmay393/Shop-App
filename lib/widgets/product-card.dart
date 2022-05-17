@@ -45,7 +45,7 @@ class _product_cardState extends State<product_card> {
           leading: Consumer<Product>(
             // this favorite icon button will only update if data changes in database.
             builder: (ctx, data, child) => IconButton(
-              onPressed: () => data.toggleFavorite(authData.token),
+              onPressed: () => data.toggleFavorite(authData.token, authData.userId),
               icon: Icon(
                   data.isFavorite ? Icons.favorite : Icons.favorite_border),
             ),

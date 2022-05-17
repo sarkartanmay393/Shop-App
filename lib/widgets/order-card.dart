@@ -26,7 +26,7 @@ class _OrderItemViewState extends State<OrderItemView> {
         children: [
           ListTile(
             title: Text(
-              "\$ ${(OrderProviderData.OrderList[widget.OrderIndex].TotalAmount).toStringAsFixed(2)}",
+              "\$${(OrderProviderData.OrderList[widget.OrderIndex].TotalAmount).toStringAsFixed(2)}",
               style: TextStyle(fontWeight: FontWeight.w600),
             ),
             subtitle: Text(

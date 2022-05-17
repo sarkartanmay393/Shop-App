@@ -39,11 +39,20 @@ class _TabScreenState extends State<TabScreen> {
       Offers(),
       Wallet(),
     ];
-    if(!_fetched) {
-      Provider.of<Products>(context, listen: false).fetchAndSetData();
-      _fetched = true;
-    }
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    setState(() {
+      _isLoading = true;
+    });
+    Provider.of<Products>(context, listen: false).fetchAndSetData().then((_) =>
+        setState(() {
+          _isLoading = false;
+        })
+    );
+    super.didChangeDependencies();
   }
 
 
@@ -66,7 +75,8 @@ class _TabScreenState extends State<TabScreen> {
         actions: [
           PopupMenuButton(
             icon: Icon(Icons.account_circle),
-            itemBuilder: (_) => [
+            itemBuilder: (_) =>
+            [
               PopupMenuItem(
                   child: Text("Account"), value: PopupItemValue.my_account),
               PopupMenuItem(
@@ -74,23 +84,24 @@ class _TabScreenState extends State<TabScreen> {
             ],
           ),
           Consumer<Cart>(
-            builder: (_, cart, child) => Badge(
-              value: cart.cartItemsCount,
-              child: IconButton(
-                icon: Icon(Icons.shopping_cart),
-                onPressed: () {
-                  Navigator.of(context).pushNamed(CartScreen.routeName);
-                },
-              ),
-            ),
+            builder: (_, cart, child) =>
+                Badge(
+                  value: cart.cartItemsCount,
+                  child: IconButton(
+                    icon: Icon(Icons.shopping_cart),
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(CartScreen.routeName);
+                    },
+                  ),
+                ),
           ),
         ],
       ),
       drawer: MainDrawer(),
       body: _isLoading
           ? Center(
-              child: CircularProgressIndicator(),
-            )
+        child: CircularProgressIndicator(),
+      )
           : _pages[_pageIndex],
       bottomNavigationBar: BottomNavigationBar(
         onTap: tabSelectionHandler,

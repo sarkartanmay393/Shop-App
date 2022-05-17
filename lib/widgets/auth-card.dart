@@ -27,11 +27,11 @@ class _AuthCardState extends State<AuthCard> {
 
   var _isLoading = false;
 
-  void _errorDialog(String message) {
+  void _errorDialog({String message, String title}) {
     showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
-              title: Text("An error occurred."),
+              title: Text(title),
               content: Text(message),
               actions: [
                 TextButton(
@@ -72,7 +72,7 @@ class _AuthCardState extends State<AuthCard> {
       } else {
         await Provider.of<Auth>(context, listen: false)
             .signup(_authInfo['email'], _authInfo['password']);
-        _errorDialog("Signup Successful.");
+        _errorDialog(message: "Signup Successful.", title: "Go ahead");
         setState(() {
           _currentMode = AuthMode.Login;
         });
@@ -90,10 +90,10 @@ class _AuthCardState extends State<AuthCard> {
       } else if (error.message.contains("INVALID_PASSWORD")) {
         errorMessage = "Invalid Password.";
       }
-      _errorDialog(errorMessage);
+      _errorDialog(message: errorMessage, title: "An error occurred.");
     } catch (error) {
       const errorMessage = "Could not authenticate, Please try again later.";
-      _errorDialog(errorMessage);
+      _errorDialog(message: errorMessage, title: "An error occurred.");
     }
 
     setState(() {
