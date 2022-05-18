@@ -13,7 +13,7 @@ Packages Used : Provider - State Management,
                 Shared Preferences - Storing Auth Data on Device.
 
 ## Screenshots
-<img alt="Login Page" height="120" src="screenshots/LoginPage.png" width="40"/>
-<img alt="Home Page" height="120" src="screenshots/HomePage.png" width="40"/>
-<img alt="Shopping Cart" height="120" src="screenshots/ShoppingCartView.png" width="40"/>
-<img alt="Add New Products" height="120" src="screenshots/AddForm.png" width="40"/>
+
+Login Page                 | Home Page                 | Shop Cart                 | Add Form
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
+![](screenshots/LoginPage.png)  | ![](screenshots/HomePage.png) | ![](screenshots/ShoppingCartView.png)  | ![](screenshots/AddForm.png)
