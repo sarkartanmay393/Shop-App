@@ -6,7 +6,7 @@
 4. Product Management Screen - with Add New and Edit Option.
 5. Favorites, Cart-Order, Product Management options are USER SPECIFIC.
 6. Auto Login, Auto Logout added.
-(7). Animation - will be added.
+7. Animations - Route Transition, Product Opening, Shimmer etc.
 
 Tech Used : Flutter, Firebase.
 Packages Used : Provider - State Management, 
