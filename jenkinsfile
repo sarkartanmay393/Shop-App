@@ -1,18 +1,20 @@
 pipeline {
     agent any
     stages {
-        stage("build") {
-            echo "Building stage is running."
-        }
-        stage("test") {
-            echo "test stage is running."
-            script {
-                def aLamdaFunction = 3 + 0 < 4 ? 'right"' : 'left'
-                echo aLamdaFunction
+        stage('build') {
+            steps {
+                echo "Building stage is running."
             }
         }
-        stage("deploy") {
-            echo "Building stage is running."
+        stage('test') {
+            steps {
+                echo "test stage is running."
+            }
+        }
+        stage('deploy') {
+            steps {
+                echo "Building stage is running."
+            }
         }
     }
 }
