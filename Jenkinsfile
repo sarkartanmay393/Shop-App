@@ -7,7 +7,7 @@ pipeline {
         stage('Build') {
             agent {
                 docker {
-                    image 'fischerscode/flutter'
+                    image 'fischerscode/flutter:stable'
                 }
             }
             steps {
