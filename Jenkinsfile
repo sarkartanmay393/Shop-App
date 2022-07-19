@@ -1,6 +1,8 @@
-pipeline {
+// This file is used with Shop-App for testing Jenkins
 
-    agent any
+pipeline { 
+
+    agent none
 
     enviroment {
         NEW_VERSION = '1.0'
@@ -8,21 +10,35 @@ pipeline {
     }
 
     stages {
-        stage('test') {
-            when { // when condition
+        stage('Build') {
+            when {
                 expression {
-                    BRANCH_NAME = 'test-jenkins'
+                    BRANCH_NAME = 'main'
+                }
+            }
+            agent {
+                docker {
+                    image 'fischerscode/flutter'
                 }
             }
             steps {
-                echo "test stage is running in test jenkins branch only."
-                echo "current verision ${NEW_VERSION}"
+                sh 'flutter version'
+                // echo "Build stage is running."
+
             }
         }
-        stage('deploy') {
-            steps {
-                echo "Building stage is running."
-            }
+        
+    }
+
+    post {
+        always {
+
+        }
+        success {
+
+        }
+        failure {
+
         }
     }
 
